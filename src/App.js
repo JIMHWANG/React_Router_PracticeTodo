@@ -4,7 +4,10 @@ import {
   NavLink,
   Routes,
   Route,
-  useNavigate
+  useNavigate,
+  Outlet,
+  Link,
+  useParams
 } from 'react-router-dom';
 
 const Todo = () => {
@@ -37,6 +40,34 @@ const Home = () => {
 const NotFound = () => {
   return <p>無此頁</p>;
 };
+const Post = () => {
+  return (
+    <>
+      <p>User詳細資料</p>
+      <Link to="PostTest">PostTest</Link>
+      <Outlet />
+      <p>User詳細資料</p>
+    </>
+  )
+};
+const PostDefault = () => {
+  return (
+    <>
+      <p>Post default</p>
+    </>
+  )
+}
+const PostTest = () => {
+  return (
+    <>
+      <p>PostTest</p>
+    </>
+  )
+};
+const ProfilePage = () => {
+  let params = useParams();
+  return <p>UserID: {params.userId}</p>
+}
 
 function App() {
   return (
@@ -58,6 +89,9 @@ function App() {
           <NavLink to="/test">
             <p>TEST</p>
           </NavLink>
+          <NavLink to="/Post">
+            <p>Post詳細頁面</p>
+          </NavLink>
         </div>
         {/* Routes, Route 練習區 */}
         {/* 練習區 */}
@@ -67,6 +101,11 @@ function App() {
           <Route path="Login" element={<Login />}></Route>
           <Route path="ToDo" element={<Todo />}></Route>
           <Route path="*" element={<NotFound />} />
+          <Route path="post" element={<Post />}>
+            <Route index element={<PostDefault />}></Route>
+            <Route path="PostTest" element={<PostTest />}></Route>
+            <Route path=":userId" element={<ProfilePage />}></Route>
+          </Route>
         </Routes>
       </HashRouter>
     </div>
